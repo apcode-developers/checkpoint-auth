@@ -4,6 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.sql.Timestamp;
+import java.util.Date;
+
 public class UserAdminDto {
 
     @Data
@@ -15,6 +18,12 @@ public class UserAdminDto {
         private String lastName;
         private String userName;
         private String userPassword;
+        private Character gender;
+        private String email;
+        private String phoneNumber;
+        private Date birthDate;
+        private Timestamp registerTime;
+        private String accountStatus;
     }
 
 

@@ -50,9 +50,27 @@ public class Login {
         return prop;
     }
 
+    public List<UserAdminDto.User> checkAccount(UserAdminDto.User value){
+        String SQL = "select concat(first_name,' ',last_name) as full_name," +
+                " user_name, user_password from user " +
+                "where user_name = ? and user_password = ? and account_status = 'verified'";
+        try {
+            return jdbcTemplate.query(SQL, (rs, rownum) -> {
+                UserAdminDto.User kab = new UserAdminDto.User();
+                kab.setUserName(rs.getString("user_name"));
+                kab.setFullName(rs.getString("full_name"));
+                kab.setUserPassword(rs.getString("user_password"));
+                return kab;
+            }, value.getUserName(), value.getUserPassword());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     public StatusLogin cekLoginValid(InfoLoginDto.User user){
         String baseQuery = "select a.user_name from login_info a inner " +
-                "join user b on b.user_name = a.user_name where tokenkey = ?";
+                "join user b on b.user_name = a.user_name where token = ?";
         StatusLogin slogin = new StatusLogin();
         try{
             boolean isValid = false;
@@ -66,7 +84,7 @@ public class Login {
                     List<String> rolesName = getRolesByUserName(hasil.get().getUserName());
                     slogin.setIsValid(true);
                     slogin.setRoles(rolesName);
-                    slogin.setTokenKey(user.getToken());
+                    slogin.setToken(user.getToken());
                     Map<String, Object> paramlogin = new HashMap<>();
                     paramlogin.put("as", rolesName.toArray()[0]);
                     updateInfoLogin(paramlogin,hasil.get().getUserName());
@@ -82,22 +100,22 @@ public class Login {
     }
 
     public void insertInfoLogin(Map<String, Object> param){
-        String SQL = "insert into login_info (user_name, tokenkey) values (?,?)";
+        String SQL = "insert into login_info (user_name, token) values (?,?)";
         Object parameter[] = {param.get("username"), param.get("token")};
         jdbcTemplate.update(SQL, parameter);
     }
 
     public void updateInfoLogin(Map<String, Object> param, String username){
-        String SQL = "update login_info set as = ? where user_name = ?";
+        String SQL = "update `login_info` set `as` = ? where `user_name` = ?";
         Object parameter[] = {param.get("as"),username};
         jdbcTemplate.update(SQL, parameter);
     }
 
     public void logout(String token) throws DataAccessException {
-        String baseQuery = "delete from login_info where tokenkey = :tokenkey";
+        String baseQuery = "delete from login_info where token = :token";
 
         MapSqlParameterSource parameterSource = new MapSqlParameterSource();
-        parameterSource.addValue("tokenkey", token);
+        parameterSource.addValue("token", token);
 
         template.update(baseQuery,parameterSource);
     }

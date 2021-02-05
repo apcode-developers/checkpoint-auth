@@ -13,7 +13,7 @@ public class StatusLogin {
 
     private String userName;
     private String fullName;
-    private String tokenKey;
+    private String token;
     private Boolean isValid;
     private List<String> roles;
 
