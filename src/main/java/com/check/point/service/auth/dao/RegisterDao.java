@@ -43,11 +43,11 @@ public class RegisterDao {
     }
 
     public void verify(UserAdminDto.New value) throws DataAccessException{
-        String baseQuery="update user set account_status = :accountStatus where id = :id";
+        String baseQuery="update user set account_status = :accountStatus where user_name = :userName";
 
         MapSqlParameterSource parameterSource = new MapSqlParameterSource();
-        parameterSource.addValue("id", value.getId());
         parameterSource.addValue("accountStatus", value.getAccountStatus());
+        parameterSource.addValue("userName", value.getUserName());
 
         template.update(baseQuery, parameterSource);
     }

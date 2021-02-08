@@ -24,7 +24,7 @@ public class RegisterService {
         newAkun.setId(randomId);
         Map<String, Object> paramRegAcc = new HashMap<>();
         paramRegAcc.put("id", UUID.randomUUID().toString());
-        paramRegAcc.put("idUser", newAkun.getId());
+        paramRegAcc.put("idUser", randomId);
         paramRegAcc.put("idRole", 1);
         dao.insert(paramRegAcc);
         newAkun.setRegisterTime(Timestamp.valueOf(LocalDateTime.now()));
@@ -33,6 +33,7 @@ public class RegisterService {
     }
 
     public void verify(UserAdminDto.New newAkun) throws DataAccessException{
+        newAkun.setAccountStatus("verified");
         dao.verify(newAkun);
     }
 }

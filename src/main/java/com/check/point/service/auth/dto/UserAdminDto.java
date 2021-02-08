@@ -18,7 +18,7 @@ public class UserAdminDto {
         private String lastName;
         private String userName;
         private String userPassword;
-        private Character gender;
+        private String gender;
         private String email;
         private String phoneNumber;
         private Date birthDate;
