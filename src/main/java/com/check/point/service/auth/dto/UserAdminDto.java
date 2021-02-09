@@ -24,6 +24,9 @@ public class UserAdminDto {
         private Date birthDate;
         private Timestamp registerTime;
         private String accountStatus;
+        private String pin;
+        private String photoProfile;
+        private String path;
     }
 
 

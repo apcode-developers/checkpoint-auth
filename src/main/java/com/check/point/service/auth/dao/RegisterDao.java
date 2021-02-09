@@ -22,9 +22,9 @@ public class RegisterDao {
 
     public int save(UserAdminDto.New value) throws SQLException {
         String basequery = "insert into user (id, first_name, last_name , user_name, user_password, gender," +
-                "email, phone_number, birth_date, register_time, account_status)" +
+                "email, phone_number, birth_date, register_time, account_status, pin)" +
                 " values (:id, :firstName, :lastName , :userName, :userPassword, " +
-                ":gender, :email, :phoneNumber, :birthDate, :registerTime, :accountStatus)";
+                ":gender, :email, :phoneNumber, :birthDate, :registerTime, :accountStatus, :pin)";
 
         MapSqlParameterSource parameterSource = new MapSqlParameterSource();
         parameterSource.addValue("id", value.getId());
@@ -40,6 +40,16 @@ public class RegisterDao {
         parameterSource.addValue("accountStatus", value.getAccountStatus());
 
         return template.update(basequery, parameterSource);
+    }
+
+    public void photoProfileSetting(UserAdminDto.New value) throws DataAccessException{
+        String baseQuery="update user set photo_profile = :photoProfile where user_name = :userName";
+
+        MapSqlParameterSource parameterSource = new MapSqlParameterSource();
+        parameterSource.addValue("photoProfile", value.getAccountStatus());
+        parameterSource.addValue("userName", value.getUserName());
+
+        template.update(baseQuery, parameterSource);
     }
 
     public void verify(UserAdminDto.New value) throws DataAccessException{
