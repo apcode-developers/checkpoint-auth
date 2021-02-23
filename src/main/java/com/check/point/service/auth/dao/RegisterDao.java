@@ -38,6 +38,7 @@ public class RegisterDao {
         parameterSource.addValue("birthDate", value.getBirthDate());
         parameterSource.addValue("registerTime", value.getRegisterTime());
         parameterSource.addValue("accountStatus", value.getAccountStatus());
+        parameterSource.addValue("pin", value.getPin());
 
         return template.update(basequery, parameterSource);
     }

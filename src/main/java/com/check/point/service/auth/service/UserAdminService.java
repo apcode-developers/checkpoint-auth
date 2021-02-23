@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class UserAdminService {
 
@@ -16,6 +18,10 @@ public class UserAdminService {
 
     public void delete(String id) throws DataAccessException {
         dao.deleteUser(id);
+    }
+
+    public Optional<UserAdminDto.New> getDataUser(String username, String password){
+        return dao.getDataUser(username, password);
     }
 
     public DataTableResponse<UserAdminDto.User> datatables(DataTableRequest res){

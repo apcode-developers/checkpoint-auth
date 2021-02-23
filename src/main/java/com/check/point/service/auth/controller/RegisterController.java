@@ -73,7 +73,7 @@ public class RegisterController {
         }
     }
 
-    @GetMapping(value = "/folder/{id}")
+    @GetMapping(value = "/image/{id}")
     public ResponseEntity<InputStreamResource>getImage(@PathVariable("id") String id){
         try{
             return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(

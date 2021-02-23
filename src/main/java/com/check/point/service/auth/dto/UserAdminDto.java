@@ -16,6 +16,7 @@ public class UserAdminDto {
         private String id;
         private String firstName;
         private String lastName;
+        private String fullName;
         private String userName;
         private String userPassword;
         private String gender;
