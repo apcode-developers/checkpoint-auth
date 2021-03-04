@@ -44,6 +44,17 @@ public class UserAdminController {
         }
     }
 
+    @GetMapping(path = "/data/user/usable")
+    public ResponseEntity<?> getDataUser(@RequestParam String pin){
+        try{
+            Optional<UserAdminDto.New> arsip = service.getDataUser(pin);
+            return new ResponseEntity<>(arsip, HttpStatus.OK);
+        }catch (EmptyResultDataAccessException e){
+            e.printStackTrace();
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
+    }
+
     @PostMapping(path = "/datatable")
     public ResponseEntity<DataTableResponse<UserAdminDto.User>> getArsip(@RequestBody DataTableRequest dataTableRequest){
         return ResponseEntity.ok().body(service.datatables(dataTableRequest));

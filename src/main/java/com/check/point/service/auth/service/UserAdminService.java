@@ -24,6 +24,11 @@ public class UserAdminService {
         return dao.getDataUser(username, password);
     }
 
+    public Optional<UserAdminDto.New> getDataUser(String pin){
+        return dao.getDataUser(pin);
+    }
+
+
     public DataTableResponse<UserAdminDto.User> datatables(DataTableRequest res){
         DataTableResponse<UserAdminDto.User> tables = new DataTableResponse<>();
         tables.setData(dao.getRowUser( res));

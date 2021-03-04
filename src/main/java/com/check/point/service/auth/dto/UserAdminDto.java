@@ -43,6 +43,17 @@ public class UserAdminDto {
         private String userPassword;
     }
 
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class Update {
+        private String id;
+        private String fullName;
+        private String firstName;
+        private String lastName;
+        private String userName;
+        private String status;
+    }
 
     @Data
     @AllArgsConstructor

@@ -94,4 +94,65 @@ public class UserAdminDao {
 
     }
 
+    public Optional<UserAdminDto.New> getDataUser(String pin){
+        String baseQuery = "select user_name as userName, user_password as userPassword, concat(first_name,' ', last_name) " +
+                "as fullName, gender as gender, email as email, phone_number as phoneNumber, " +
+                "birth_date as birthDate, register_time as registerTime, pin as pin, photo_profile as photoProfile from " +
+                "user where pin = :pin";
+
+        MapSqlParameterSource parameterSource = new MapSqlParameterSource();
+        parameterSource.addValue("pin", pin);
+
+        UserAdminDto.New arsip = jdbcTemplate.queryForObject(baseQuery, parameterSource, new RowMapper<UserAdminDto.New>() {
+            @Override
+            public UserAdminDto.New mapRow(ResultSet resultSet, int i) throws SQLException {
+                UserAdminDto.New arsip = new UserAdminDto.New();
+                arsip.setUserName(resultSet.getString("userName"));
+                arsip.setUserPassword(resultSet.getString("userPassword"));
+                arsip.setFullName(resultSet.getString("fullName"));
+                arsip.setGender(resultSet.getString("gender"));
+                arsip.setEmail(resultSet.getString("email"));
+                arsip.setPhoneNumber(resultSet.getString("phoneNumber"));
+                arsip.setPin(resultSet.getString("pin"));
+                arsip.setPhotoProfile(resultSet.getString("photoProfile"));
+                arsip.setBirthDate(resultSet.getDate("birthDate"));
+                arsip.setRegisterTime(resultSet.getTimestamp("registerTime"));
+
+                return arsip;
+            }
+        });
+        return Optional.of(arsip);
+    }
+
+    public Optional<UserAdminDto.New> getUserId(String pin){
+        String baseQuery = "select id as id from user where pin = :pin";
+
+        MapSqlParameterSource parameterSource = new MapSqlParameterSource();
+        parameterSource.addValue("pin", pin);
+
+        UserAdminDto.New arsip = jdbcTemplate.queryForObject(baseQuery, parameterSource, new RowMapper<UserAdminDto.New>() {
+            @Override
+            public UserAdminDto.New mapRow(ResultSet resultSet, int i) throws SQLException {
+                UserAdminDto.New arsip = new UserAdminDto.New();
+                arsip.setId(resultSet.getString("id"));
+
+                return arsip;
+            }
+        });
+        return Optional.of(arsip);
+    }
+
+    public void updateProfile(UserAdminDto.Update param) throws DataAccessException{
+        String baseQuery = "update user set user_name = :userName, first_name = :firstName, " +
+                "last_name = :lastName, status = :status where id = :id";
+
+        MapSqlParameterSource parameterSource = new MapSqlParameterSource();
+        parameterSource.addValue("id", param.getId());
+        parameterSource.addValue("userName", param.getUserName());
+        parameterSource.addValue("firstName", param.getFirstName());
+        parameterSource.addValue("lastName", param.getLastName());
+        parameterSource.addValue("status", param.getStatus());
+
+        jdbcTemplate.update(baseQuery, parameterSource);
+    }
 }
